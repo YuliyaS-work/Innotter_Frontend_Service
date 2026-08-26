@@ -1,0 +1,185 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.auth-container {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  font-family: sans-serif;
+
+  /* Strict 50/50 split ratio */
+  .auth-left {
+    flex: 0 0 50%;
+    width: 50%;
+    background-color: #a9a9a9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .logo-img {
+      max-width: 280px;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .auth-right {
+    flex: 0 0 50%;
+    width: 50%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 60px;
+    /* Internal paddings for right side */
+    box-sizing: border-box;
+
+    /* Top bar aligns Back link strictly to the far left of right panel */
+    .top-bar {
+      width: 100%;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: flex-start;
+
+      .back-link {
+        color: #888;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-decoration: none;
+        user-select: none;
+        /* чтобы текст не выделялся при частых кликах */
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #ff6b00;
+          text-decoration: none;
+        }
+      }
+    }
+
+    /* Form container takes remaining space */
+    .form-content {
+      width: 100%;
+      max-width: 480px;
+      /* Prevents input fields from becoming too wide on 4K screens */
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+
+      h1 {
+        margin: 0 0 10px;
+        color: #1a1a1a;
+        font-size: 2rem;
+      }
+
+      .subtitle {
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 0.95rem;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+
+        label {
+          font-size: 0.85rem;
+          color: #333;
+          margin-bottom: 6px;
+        }
+
+        input {
+          padding: 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 1rem;
+          transition: border-color 0.2s;
+
+          &:focus {
+            outline: none;
+            border-color: #ff6b00;
+          }
+        }
+
+        .error-text {
+          color: #e74c3c;
+          font-size: 0.8rem;
+          margin-top: 5px;
+        }
+      }
+
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+        color: #555;
+        cursor: pointer;
+
+        input[type="checkbox"] {
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+      }
+
+      .submit-btn {
+        width: 100%;
+        background-color: #ff6b00;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: #e65c00;
+        }
+
+        &:disabled {
+          background-color: #ffa466;
+          cursor: not-allowed;
+        }
+      }
+
+
+      .auth-footer-links {
+        margin-top: 25px;
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 0.9rem;
+        color: #666;
+
+        a {
+          color: #ff6b00;
+          text-decoration: none;
+          font-weight: 500;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
