@@ -54,7 +54,7 @@ export const ResetPasswordPage = () => {
               )}
             </div>
 
-            <button type="submit" className="submit-btn" disabled={formik.isSubmitting}>
+            <button type="submit" className="submit-btn" disabled={formik.isSubmitting} style={{fontSize: '20px'}}>
               {formik.isSubmitting ? 'Saving...' : 'Save Password'}
             </button>
           </form>

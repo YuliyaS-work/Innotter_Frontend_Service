@@ -65,7 +65,7 @@ export const ForgotPasswordPage = () => {
         </div>
 
         <div className="form-content">
-          <h1>Input your email to change password</h1>
+          <h1 style={{ marginBottom: '20px' }}>Input your email to change password</h1>
 
           {isSent ? (
             <div className="subtitle" style={{ color: '#27ae60' }}>
@@ -101,7 +101,7 @@ export const ForgotPasswordPage = () => {
                 )}
               </div>
 
-              <button type="submit" className="submit-btn" disabled={formik.isSubmitting}>
+              <button type="submit" className="submit-btn" disabled={formik.isSubmitting} style={{fontSize: '20px'}}>
                 {formik.isSubmitting ? 'Sending...' : 'Submit'}
               </button>
             </form>

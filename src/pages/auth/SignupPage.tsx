@@ -186,6 +186,7 @@ export const SignupPage = () => {
               type="submit"
               className="submit-btn"
               disabled={formik.isSubmitting}
+              style={{fontSize: '20px'}}
             >
               {formik.isSubmitting ? 'Submitting...' : 'Continue'}
             </button>
