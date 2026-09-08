@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { getPresignedPostAvatar, confirmAvatar, deleteAvatar } from '../../api/user';
 
@@ -21,6 +21,16 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
 
   // Ref for the hidden native file input element
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  useEffect(() => {
+    if (isOpen) {
+      setFile(null);
+      setError('');
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

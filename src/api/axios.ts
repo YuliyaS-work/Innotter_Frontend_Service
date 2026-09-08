@@ -14,6 +14,24 @@ export const apiInnotter = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
+/// Track refresh state across all instances
+let isRefreshing = false;
+let failedQueue: Array<{
+  resolve: (value?: unknown) => void;
+  reject: (reason?: any) => void;
+}> = [];
+
+const processQueue = (error: any = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve();
+    }
+  });
+  failedQueue = [];
+};
+
 // Helper function to attach refresh interceptor to any Axios instance
 const attachRefreshInterceptor = (instance: AxiosInstance) => {
   instance.interceptors.response.use(
@@ -28,18 +46,32 @@ const attachRefreshInterceptor = (instance: AxiosInstance) => {
 
       // Handle expired Access Token (401 Unauthorized)
       if (error.response?.status === 401 && !originalRequest._retry) {
+        if (isRefreshing) {
+          // If refresh is already in progress, add request to queue
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          })
+            .then(() => instance(originalRequest))
+            .catch((err) => Promise.reject(err));
+        }
+
         originalRequest._retry = true;
+        isRefreshing = true;
 
         try {
-          // Trigger token renewal using your exact endpoint
+          // Trigger token renewal
           await apiUMS.post('/auth/refresh-token');
-
-          // Retry the original request with renewed cookies
+          
+          processQueue(null);
           return instance(originalRequest);
         } catch (refreshError) {
-          // If Refresh Token is expired/invalid, redirect to login
+          processQueue(refreshError);
+          
+          // Redirect to login ONLY if refresh token request genuinely failed
           window.location.href = '/login';
           return Promise.reject(refreshError);
+        } finally {
+          isRefreshing = false;
         }
       }
 
