@@ -1,6 +1,5 @@
 import React from 'react';
-import { LogoutButton } from './LogoutButton';
-import { logoutUser } from '../api/auth';
+import { logoutUser } from '../../api/auth';
 
 interface SidebarProps {
   activeTab?: 'home' | 'explore' | 'profile';

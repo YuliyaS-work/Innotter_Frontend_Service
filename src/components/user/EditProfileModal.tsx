@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { patchMe } from '../api/user';
-import { UserResponse, ProfileUserPatch } from '../api/user';
+import { patchMe } from '../../api/user';
+import { UserResponse, ProfileUserPatch } from '../../api/user';
 
 interface EditProfileModalProps {
   user: UserResponse;

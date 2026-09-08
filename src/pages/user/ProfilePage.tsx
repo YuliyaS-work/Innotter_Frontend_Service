@@ -1,13 +1,13 @@
 // src/pages/ProfilePage.tsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RightPanel } from '../../components/RightPanel';
+import { RightPanel } from '../../components/common/RightPanel';
 import { deleteMe, getMe, UserResponse } from '../../api/user';
 import { logoutUser } from '../../api/auth';
-import { Sidebar } from '../../components/Sidebar';
-import { EditProfileModal } from '../../components/EditProfileModal';
+import { Sidebar } from '../../components/common/Sidebar';
+import { EditProfileModal } from '../../components/user/EditProfileModal';
 import { ICONS } from '../../constants/icons';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/user/Button';
 
 export const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<UserResponse | null>(null);

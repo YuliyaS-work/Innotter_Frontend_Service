@@ -1,6 +1,6 @@
 import React from 'react';
-import { ICONS } from '../constants/icons';
-import { Button } from './Button';
+import { ICONS } from '../../constants/icons';
+import { Button } from '.././user/Button';
 
 export const RightPanel: React.FC = () => {
   return (
