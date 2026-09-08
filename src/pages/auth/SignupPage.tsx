@@ -53,6 +53,7 @@ export const SignupPage = () => {
         };
 
         await registerUser(payload);
+        navigate('/me');
 
       } catch (error: any) {
         // Catch 400/409 errors (e.g., if email, username, or phone already exists in DB)
