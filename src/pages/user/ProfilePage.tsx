@@ -1,24 +1,23 @@
-// src/pages/ProfilePage.tsx
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { RightPanel } from '../../components/common/RightPanel';
-import { deleteMe, getMe, UserResponse } from '../../api/user';
-import { logoutUser } from '../../api/auth';
+import { deleteMe, getAvatarUrl, getMe, UserResponse } from '../../api/user';
 import { Sidebar } from '../../components/common/Sidebar';
 import { EditProfileModal } from '../../components/user/EditProfileModal';
-import { ICONS } from '../../constants/icons';
 import { Button } from '../../components/user/Button';
+import { Avatar } from '../../components/user/Avatar';
+import { AvatarModal } from '../../components/user/AvatarModal';
 
-export const ProfilePage: React.FC = () => {
+export const ProfilePage = () => {
   const [user, setUser] = useState<UserResponse | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  // Flag to control the visibility of the AvatarModal and EditProfileModal
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // User data fetching
   const fetchUserData = async () => {
     try {
       setLoading(true);
@@ -36,6 +35,24 @@ export const ProfilePage: React.FC = () => {
     }
   };
 
+  // Avatar fetching
+  const fetchAvatar = async () => {
+    try {
+      const data = await getAvatarUrl();
+      setAvatarUrl(data?.presigned_url || null);
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        setAvatarUrl(null);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+    fetchAvatar();
+  }, []);
+
+  // Deleting user profile 
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
       try {
@@ -53,34 +70,36 @@ export const ProfilePage: React.FC = () => {
 
   if (loading) return <div style={{ padding: '20px' }}>Loading profile...</div>;
 
-  const avatarUrl = user?.image_s3_path
-    ? user.image_s3_path
-    : `https://ui-avatars.com/api/?name=${user?.name}+${user?.surname}&background=666&color=fff&size=128`;
-
   return (
     <div style={{ display: 'flex', width: '100%', minHeight: '100vh', fontFamily: 'sans-serif' }}>
       {/* Left Sidebar (20%) */}
       <Sidebar activeTab="profile" />
 
-      {/*Center Profile Main Content (60%)*/}
+      {/* Center Profile Main Content (60%) */}
       <main style={{ width: '60%', padding: '40px', boxSizing: 'border-box' }}>
         {error && <div style={{ color: '#a21313', marginBottom: '20px' }}>{error}</div>}
 
         <div style={{ display: 'flex', gap: '40px', paddingTop: '20px', alignItems: 'flex-start' }}>
 
+          {/* Left Column: Avatar and Name */}
           <div style={{ display: 'flex', flexDirection: 'column', paddingTop: '20px', alignItems: 'center', textAlign: 'center', minWidth: '140px' }}>
-            <img
-              src={avatarUrl}
-              alt="Avatar"
-              style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', marginBottom: '16px' }}
+            <Avatar
+              avatarUrl={avatarUrl}
+              firstName={user?.name}
+              lastName={user?.surname}
+              onEditClick={() => setIsAvatarModalOpen(true)}
             />
-            <h3 style={{ margin: 0, color: '#1a1a1a', fontSize: '20px' }}>{user?.name} {user?.surname}</h3>
+
+            <h3 style={{ margin: '16px 0 0', color: '#1a1a1a', fontSize: '20px' }}>
+              {user?.name} {user?.surname}
+            </h3>
             <p style={{ margin: '4px 0 0', color: '#666', fontSize: '16px' }}>{user?.email}</p>
           </div>
 
-          <div style={{ flex: 1, display: 'flex', padding: '40px', flexDirection: 'column', gap: '24px' }}>
+          {/* Right Column: Data Fields and Buttons */}
+          <div style={{ flex: 1, display: 'flex', padding: '0 40px', flexDirection: 'column', gap: '24px' }}>
             {[
-              { label: 'Name:', value: `${user?.name || ''} ` },
+              { label: 'Name:', value: `${user?.name || ''}` },
               { label: 'Surname:', value: `${user?.surname || ''}` },
               { label: 'Email:', value: user?.email },
               { label: 'Mobile number:', value: user?.phone_number || 'Add number' },
@@ -108,7 +127,15 @@ export const ProfilePage: React.FC = () => {
       {/* Right Panel (20%) */}
       <RightPanel />
 
-      {/* Edit Profile Modal */}
+      {/* Modal window for changing avatar */}
+      <AvatarModal
+        isOpen={isAvatarModalOpen}
+        onClose={() => setIsAvatarModalOpen(false)}
+        onSuccess={fetchAvatar}
+        hasAvatar={Boolean(avatarUrl)}
+      />
+
+      {/* Modal window for editing profile text */}
       {user && (
         <EditProfileModal
           user={user}
