@@ -1,5 +1,5 @@
 import React from 'react';
-import { logoutUser } from '../api/auth';
+import { logoutUser } from '../../api/auth';
 
 export const LogoutButton = () => {
   const handleLogout = async () => {

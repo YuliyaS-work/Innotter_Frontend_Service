@@ -23,7 +23,7 @@ body {
   .auth-left {
     flex: 0 0 50%;
     width: 50%;
-    background-color: #a9a9a9;
+    background-color: #333;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,27 +38,27 @@ body {
   .auth-right {
     flex: 0 0 50%;
     width: 50%;
-    background-color: #ffffff;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
-    padding: 40px 60px;
+    padding: 20px 60px;
     /* Internal paddings for right side */
     box-sizing: border-box;
 
     /* Top bar aligns Back link strictly to the far left of right panel */
     .top-bar {
       width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       display: flex;
       justify-content: flex-start;
 
       .back-link {
-        color: #888;
-        font-size: 0.9rem;
+        margin-left: -20px;
+        color: #333;
+        font-size: 20px;
         cursor: pointer;
         text-decoration: none;
         user-select: none;
-        /* чтобы текст не выделялся при частых кликах */
         transition: color 0.2s ease;
 
         &:hover {
@@ -72,39 +72,38 @@ body {
     .form-content {
       width: 100%;
       max-width: 480px;
-      /* Prevents input fields from becoming too wide on 4K screens */
       margin: auto;
       display: flex;
       flex-direction: column;
 
       h1 {
-        margin: 0 0 10px;
-        color: #1a1a1a;
+        margin: 0;
+        color: #333;
         font-size: 2rem;
       }
 
       .subtitle {
         color: #666;
-        margin-bottom: 30px;
-        font-size: 0.95rem;
+        margin-bottom: 25px;
+        font-size: 20px;
       }
 
       .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         display: flex;
         flex-direction: column;
 
         label {
-          font-size: 0.85rem;
+          font-size: 16px;
           color: #333;
           margin-bottom: 6px;
         }
 
         input {
-          padding: 12px;
+          padding: 14px;
           border: 1px solid #ccc;
           border-radius: 4px;
-          font-size: 1rem;
+          font-size: 16px;
           transition: border-color 0.2s;
 
           &:focus {
@@ -114,8 +113,8 @@ body {
         }
 
         .error-text {
-          color: #e74c3c;
-          font-size: 0.8rem;
+          color: #a21313;
+          font-size: 16px;
           margin-top: 5px;
         }
       }
@@ -127,7 +126,7 @@ body {
         gap: 8px;
         margin-bottom: 20px;
         font-size: 0.9rem;
-        color: #555;
+        color: #666;
         cursor: pointer;
 
         input[type="checkbox"] {
@@ -140,7 +139,7 @@ body {
       .submit-btn {
         width: 100%;
         background-color: #ff6b00;
-        color: white;
+        color: #fff;
         border: none;
         padding: 14px;
         border-radius: 4px;
@@ -151,7 +150,7 @@ body {
         transition: background-color 0.2s;
 
         &:hover {
-          background-color: #e65c00;
+          background-color: #ff6b00;
         }
 
         &:disabled {
@@ -167,7 +166,7 @@ body {
         display: flex;
         flex-direction: column;
         gap: 12px;
-        font-size: 0.9rem;
+        font-size: 16px;
         color: #666;
 
         a {

@@ -8,9 +8,13 @@ services:
     container_name: react_frontend
     ports:
       - "3000:3000"
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true     
+      - FAST_REFRESH=true
     volumes:
-      - ./src:/app/src         
-      - ./public:/app/public
+      - .:/app                      
+      - /app/node_modules
     networks:
       - inner-net      
 
