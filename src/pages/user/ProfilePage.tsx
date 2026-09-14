@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { RightPanel } from '../../components/common/RightPanel';
-import { deleteMe, getAvatarUrl, getMe, UserResponse } from '../../api/user';
-import { Sidebar } from '../../components/common/Sidebar';
+import { deleteMe, getMe, UserResponse } from '../../api/user';
 import { EditProfileModal } from '../../components/user/EditProfileModal';
+import { ProfileLayout } from '../../components/user/ProfileLayout';
+import { ProfileInfo } from '../../components/user/ProfileInfo';
+import { ProfileFields } from '../../components/user/ProfileFields';
+import { Button } from '../../components/common/Button_profile';
+
 import { Button } from '../../components/user/Button';
 import { Avatar } from '../../components/user/Avatar';
 import { AvatarModal } from '../../components/user/AvatarModal';
@@ -68,64 +71,42 @@ export const ProfilePage = () => {
     }
   };
 
-  if (loading) return <div style={{ padding: '20px' }}>Loading profile...</div>;
+  if (loading) {
+    return (
+      <ProfileLayout>
+        <div style={{ padding: '20px' }}>Loading profile...</div>
+      </ProfileLayout>
+    );
+  }
+
+  if (!user) {
+    return (
+      <ProfileLayout>
+        <div className="profile-error">Profile not found</div>
+      </ProfileLayout>
+    );
+  }
 
   return (
-    <div style={{ display: 'flex', width: '100%', minHeight: '100vh', fontFamily: 'sans-serif' }}>
-      {/* Left Sidebar (20%) */}
-      <Sidebar activeTab="profile" />
+    <ProfileLayout>
+      {error && <div className="profile-error">{error}</div>}
 
-      {/* Center Profile Main Content (60%) */}
-      <main style={{ width: '60%', padding: '40px', boxSizing: 'border-box' }}>
-        {error && <div style={{ color: '#a21313', marginBottom: '20px' }}>{error}</div>}
+      <div className="profile-content">
+        <ProfileInfo user={user} />
 
-        <div style={{ display: 'flex', gap: '40px', paddingTop: '20px', alignItems: 'flex-start' }}>
+        <div style={{ flex: 1 }}>
+          <ProfileFields user={user} />
 
-          {/* Left Column: Avatar and Name */}
-          <div style={{ display: 'flex', flexDirection: 'column', paddingTop: '20px', alignItems: 'center', textAlign: 'center', minWidth: '140px' }}>
-            <Avatar
-              avatarUrl={avatarUrl}
-              firstName={user?.name}
-              lastName={user?.surname}
-              onEditClick={() => setIsAvatarModalOpen(true)}
-            />
-
-            <h3 style={{ margin: '16px 0 0', color: '#1a1a1a', fontSize: '20px' }}>
-              {user?.name} {user?.surname}
-            </h3>
-            <p style={{ margin: '4px 0 0', color: '#666', fontSize: '16px' }}>{user?.email}</p>
+          <div className="profile-actions">
+            <Button onClick={() => setIsModalOpen(true)} bgColor="#ff6b00">
+              Edit Profile
+            </Button>
+            <Button onClick={handleDelete} bgColor="#a21313">
+              Delete Profile
+            </Button>
           </div>
-
-          {/* Right Column: Data Fields and Buttons */}
-          <div style={{ flex: 1, display: 'flex', padding: '0 40px', flexDirection: 'column', gap: '24px' }}>
-            {[
-              { label: 'Name:', value: `${user?.name || ''}` },
-              { label: 'Surname:', value: `${user?.surname || ''}` },
-              { label: 'Email:', value: user?.email },
-              { label: 'Mobile number:', value: user?.phone_number || 'Add number' },
-              { label: 'Username:', value: `@${user?.username || ''}` },
-            ].map((field, index) => (
-              <div key={index} style={{ borderBottom: '1px solid #66666633', paddingBottom: '12px', display: 'flex' }}>
-                <span style={{ color: '#666', fontSize: '18px', width: '140px', flexShrink: 0 }}>{field.label}</span>
-                <strong style={{ color: '#333', fontSize: '18px' }}>{field.value}</strong>
-              </div>
-            ))}
-
-            <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-              <Button onClick={() => setIsModalOpen(true)} bgColor="#ff6b00">
-                Edit Profile
-              </Button>
-              <Button onClick={handleDelete} bgColor="#a21313">
-                Delete Profile
-              </Button>
-            </div>
-          </div>
-
         </div>
-      </main>
-
-      {/* Right Panel (20%) */}
-      <RightPanel />
+      </div>
 
       {/* Modal window for changing avatar */}
       <AvatarModal
@@ -144,6 +125,6 @@ export const ProfilePage = () => {
           onSuccess={(updatedUser) => setUser(updatedUser)}
         />
       )}
-    </div>
+    </ProfileLayout>
   );
 };
