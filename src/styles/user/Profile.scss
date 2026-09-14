@@ -1,0 +1,87 @@
+.profile-container {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.profile-main {
+  width: 60%;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.profile-error {
+  color: #a21313;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.profile-content {
+  display: flex;
+  gap: 40px;
+  padding-top: 20px;
+  align-items: flex-start; 
+}
+
+.profile-avatar-block {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  align-items: center;
+  text-align: center;
+  min-width: 140px;
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.profile-name {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 20px;
+}
+
+.profile-email {
+  margin: 4px 0 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.profile-fields {
+  flex: 1;
+  display: flex;
+  padding: 40px;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile-field-row {
+  border-bottom: 1px solid #66666633;
+  padding-bottom: 12px;
+  display: flex;
+}
+
+.profile-field-label {
+  color: #666;
+  font-size: 18px;
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.profile-field-value {
+  color: #333;
+  font-size: 18px;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}

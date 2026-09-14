@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logoImg from '../../assets/images/logo.jpg';
-import './Auth.scss';
+import '../../styles/auth/Auth.scss';
 
 
 interface AuthLayoutProps {
