@@ -7,9 +7,9 @@ interface ProfileInfoProps {
 }
 
 export const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
-  const avatarUrl = user?.image_s3_path
+  const avatarUrl = user.image_s3_path
     ? user.image_s3_path
-    : `https://ui-avatars.com/api/?name=${user?.name}+${user?.surname}&background=666&color=fff&size=128`;
+    : `https://ui-avatars.com/api/?name=${user.name}+${user.surname}&background=666&color=fff&size=128`;
 
   return (
     <div className="profile-avatar-block">
