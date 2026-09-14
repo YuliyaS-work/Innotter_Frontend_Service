@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import '../../styles/user/Avatar.scss';
+
 interface AvatarProps {
   avatarUrl: string | null;
   firstName?: string;
@@ -17,74 +19,39 @@ export const Avatar: React.FC<AvatarProps> = ({
 }) => {
   const [imageError, setImageError] = useState(false);
 
-  // Reset the error when changing the link
   useEffect(() => {
     setImageError(false);
   }, [avatarUrl]);
+
   const initials = `${firstName[0] || ''}${lastName[0] || ''}`.toUpperCase() || 'U';
 
+  const showFallback = imageError || !avatarUrl;
+
   return (
-    <div style={{ position: 'relative', width: `${size}px`, height: `${size}px` }}>
-      {avatarUrl ? (
+    <div className="avatar" style={{ width: size, height: size }}>
+      {showFallback ? (
+        <div className="avatar-fallback" style={{ fontSize: size / 3.4 }}>
+          {initials}
+        </div>
+      ) : (
         <img
           src={avatarUrl}
           alt="Avatar"
+          className="avatar-img"
           onError={() => setImageError(true)}
-          style={{
-            width: `${size}px`,
-            height: `${size}px`,
-            borderRadius: '50%',
-            objectFit: 'cover',
-          }}
         />
-      ) : (
-        <div
-          style={{
-            width: `${size}px`,
-            height: `${size}px`,
-            borderRadius: '50%',
-            backgroundColor: '#555',
-            color: '#fff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: `${Math.round(size / 3.4)}px`,
-            fontWeight: 'bold',
-            userSelect: 'none',
-          }}
-        >
-          {initials}
-        </div>
       )}
 
-      {/* Edit button */}
       {onEditClick && (
         <button
           type="button"
+          className="avatar-edit-btn"
           onClick={(e) => {
             e.stopPropagation();
             onEditClick();
           }}
-          style={{
-            position: 'absolute',
-            bottom: '4px',
-            right: '4px',
-            width: '38px',
-            height: '38px',
-            borderRadius: '50%',
-            backgroundColor: '#ff6b00',
-            border: '3px solid #ffffff',
-            color: '#ffffff',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10,
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-          }}
           title="Change Photo"
         >
-          {/* icon to edit photo */}
           <svg
             width="18"
             height="18"

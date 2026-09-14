@@ -6,21 +6,17 @@ import { ProfileInfo } from '../../components/user/ProfileInfo';
 import { ProfileFields } from '../../components/user/ProfileFields';
 import { Button } from '../../components/common/Button_profile';
 
-import { Button } from '../../components/user/Button';
-import { Avatar } from '../../components/user/Avatar';
-import { AvatarModal } from '../../components/user/AvatarModal';
 
-export const ProfilePage = () => {
+export const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<UserResponse | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // Flag to control the visibility of the AvatarModal and EditProfileModal
-  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
-  // User data fetching
   const fetchUserData = async () => {
     try {
       setLoading(true);
@@ -38,24 +34,6 @@ export const ProfilePage = () => {
     }
   };
 
-  // Avatar fetching
-  const fetchAvatar = async () => {
-    try {
-      const data = await getAvatarUrl();
-      setAvatarUrl(data?.presigned_url || null);
-    } catch (err: any) {
-      if (err.response?.status === 404) {
-        setAvatarUrl(null);
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchUserData();
-    fetchAvatar();
-  }, []);
-
-  // Deleting user profile 
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
       try {
@@ -108,15 +86,6 @@ export const ProfilePage = () => {
         </div>
       </div>
 
-      {/* Modal window for changing avatar */}
-      <AvatarModal
-        isOpen={isAvatarModalOpen}
-        onClose={() => setIsAvatarModalOpen(false)}
-        onSuccess={fetchAvatar}
-        hasAvatar={Boolean(avatarUrl)}
-      />
-
-      {/* Modal window for editing profile text */}
       {user && (
         <EditProfileModal
           user={user}

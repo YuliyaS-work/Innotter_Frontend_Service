@@ -13,6 +13,10 @@ export const SignupPage = () => {
   const formik = useFormik({
     initialValues: signupInitialValues,
     validationSchema: signupSchema,
+
+    validateOnChange: false,
+    validateOnBlur: false,
+
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
         const payload = {

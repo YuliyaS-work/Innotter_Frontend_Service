@@ -1,0 +1,85 @@
+.edit-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-modal {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.edit-modal-title {
+  margin: 0 0 20px;
+  color: #333;
+  font-size: 20px;
+}
+
+.edit-modal-error {
+  color: #EB5757;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.edit-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.edit-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-field label {
+  color: #555;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.edit-field input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.edit-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit-btn-save {
+  flex: 1;
+  padding: 10px;
+  background-color: #ff6b00;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.edit-btn-cancel {
+  padding: 10px 15px;
+  background-color: #f2f2f2;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
