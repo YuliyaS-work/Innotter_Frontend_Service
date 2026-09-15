@@ -59,6 +59,21 @@ export interface UserPatchByAdmin extends ProfileUserPatch {
   roles_id?: number[];
 }
 
+// Backend response for GET /users/
+export interface RoleUsersData {
+  users: UserResponse[];
+  total_users: number;
+  page: number;
+  size: number;
+  total_pages: number;
+}
+
+export type GetUsersResponse = {
+  ADMIN?: RoleUsersData;
+  MODERATOR?: RoleUsersData;
+};
+
+
 // Filters & Pagination
 export interface UserFilter {
   name?: string;
@@ -128,8 +143,8 @@ export const deleteAvatar = async (): Promise<UserResponse> => {
 export const getUsersList = async (
   filter?: UserFilter, 
   pagination?: UserPagination
-): Promise<{ items: UserResponse[]; total: number; page: number; size: number }> => {
-  const response = await apiUMS.get('/users/', {
+): Promise<GetUsersResponse> => {
+  const response = await apiUMS.get<GetUsersResponse>('/users/', {
     params: {
       ...filter,
       page: pagination?.page || 1,

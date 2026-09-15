@@ -1,22 +1,19 @@
 import axios, { AxiosInstance } from 'axios';
 
 export const apiUMS = axios.create({
-//   baseURL: 'http://ums-service:8000/api',
   baseURL: 'http://localhost:8000',
   withCredentials: true,
-  headers: { 'Content-Type': 'application/json' }
+  headers: { 'Content-Type': 'application/json' },
 });
 
 export const apiInnotter = axios.create({
-//   baseURL: 'http://innotter-service:8002/api',
   baseURL: 'http://localhost:8002',
   withCredentials: true,
-  headers: { 'Content-Type': 'application/json' }
+  headers: { 'Content-Type': 'application/json' },
 });
 
 let isRefreshing = false;
 
-// Queue now stores request resolvers instead of plain promises
 let failedQueue: Array<{
   resolve: (value?: unknown) => void;
   reject: (reason?: any) => void;
@@ -58,7 +55,8 @@ const attachRefreshInterceptor = (instance: AxiosInstance) => {
         isRefreshing = true;
 
         try {
-          await apiUMS.post('/auth/refresh-token', {}, { withCredentials: true });
+          // ИСПРАВЛЕНИЕ: Ждем завершения запроса рефреша перед тем, как отпускать очередь
+          await apiUMS.post('/auth/refresh-token');
           processQueue(null);
           return instance(originalRequest);
         } catch (refreshError: any) {

@@ -1,0 +1,160 @@
+@use 'sass:color'; // Добавляем импорт модуля Sass Color
+
+.moderator-layout {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.moderator-content {
+  .moderator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    .total-count {
+      color: #888;
+      font-size: 14px;
+    }
+  }
+
+  .moderator-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+
+    input,
+    select {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      outline: none;
+
+      &:focus {
+        border-color: #ff6b00;
+      }
+    }
+
+    .search-btn {
+      background: #ff6b00;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+
+      &:hover {
+        // Современный стандарт Dart Sass
+        background: color.adjust(#ff6b00, $lightness: -10%);
+      }
+    }
+  }
+
+  .table-wrapper {
+    background: #242424;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    th,
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #333;
+    }
+
+    th {
+      background: #2d2d2d;
+      color: #aaa;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .avatar-placeholder {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #ff6b00;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .roles-column {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .role-badge {
+      font-size: 11px;
+      padding: 3px 6px;
+      border-radius: 4px;
+
+      &.role-admin {
+        background: #d9534f;
+      }
+
+      &.role-moderator {
+        background: #f0ad4e;
+      }
+
+      &.role-user {
+        background: #5bc0de;
+      }
+    }
+
+    .status-badge {
+      font-size: 12px;
+      font-weight: bold;
+
+      &.active {
+        color: #5cb85c;
+      }
+
+      &.blocked {
+        color: #d9534f;
+      }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+
+    button {
+      background: #333;
+      color: #fff;
+      border: 1px solid #444;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
