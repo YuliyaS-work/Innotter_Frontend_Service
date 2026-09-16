@@ -67,11 +67,19 @@
 .roles-checkboxes {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 10px;
-  background: #f7f7f7;
-  border-radius: 6px;
-  border: 1px solid #ddd;
+  gap: 10px;
+}
+
+.role-item {
+  display: flex;
+  align-items: center; /* выравнивание по высоте */
+  gap: 10px;
+}
+
+.role-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
 }
 
 .edit-modal-actions-bottom {

@@ -97,7 +97,7 @@ export const EditUserForm = ({
           <div className="edit-field">
             <label>Roles</label>
             <div className="roles-checkboxes">
-              <label>
+              <label className="role-item">
                 <input
                   type="checkbox"
                   checked={formData.roles_id.includes(2)}
@@ -106,7 +106,7 @@ export const EditUserForm = ({
                 Moderator
               </label>
 
-              <label>
+              <label className="role-item">
                 <input
                   type="checkbox"
                   checked={formData.roles_id.includes(3)}
