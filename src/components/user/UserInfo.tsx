@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getUserById, UserResponse } from "../../api/user";
 
 import { UserInfoFields } from "./UserInfoFields";
@@ -11,17 +12,18 @@ interface Props {
 }
 
 export const UserInfoModal: React.FC<Props> = ({ userId, onClose }) => {
-  const [user, setUser] = useState<UserResponse | null>(null);
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery<UserResponse>({
+    queryKey: ["user", userId],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
+  });
 
-  useEffect(() => {
-    const load = async () => {
-      const data = await getUserById(userId);
-      setUser(data);
-    };
-    load();
-  }, [userId]);
-
-  if (!user) return null;
+  if (isLoading) return null;
+  if (error || !user) return null;
 
   return (
     <div className="user-info-modal-overlay">

@@ -1,98 +1,83 @@
-import React, { useEffect, useState, FormEvent } from 'react';
-import { UsersLayout } from '../../components/user/UsersLayout';
-import { getUsersList } from '../../api/user';
-import { UserResponse, UserFilter, GetUsersResponse } from '../../api/user';
-import { UserAvatar } from '../../components/common/UserInfoAvatar';
+import React, { useState, FormEvent } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-import { EditUserModal } from '../../components/user/EditUserModal';
-import { UserInfoModal } from '../../components/user/UserInfo'
-import '../../styles/user/UsersPage.scss';
-import '../../styles/user/UserInfoModal.scss';
-import '../../styles/user/EditUserModal.scss';
+import { UsersLayout } from "../../components/user/UsersLayout";
+import { getUsersList, GetUsersResponse, UserResponse } from "../../api/user";
+import { UserAvatar } from "../../components/common/UserInfoAvatar";
+
+import { EditUserModal } from "../../components/user/EditUserModal";
+import { UserInfoModal } from "../../components/user/UserInfo";
+
+import "../../styles/user/UsersPage.scss";
+import "../../styles/user/UserInfoModal.scss";
+import "../../styles/user/EditUserModal.scss";
 
 interface UsersPageProps {
-  role: 'ADMIN' | 'MODERATOR';
+  role: "ADMIN" | "MODERATOR";
   title: string;
   showEdit?: boolean;
 }
 
 export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) => {
-  const [users, setUsers] = useState<UserResponse[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const [filter, setFilter] = useState<UserFilter>({
-    name: '',
-    surname: '',
-    sort_field: 'name',
-    order_by: 'asc',
+  const [filter, setFilter] = useState<{
+    name: string;
+    surname: string;
+    sort_field: "name" | "surname";
+    order_by: "asc" | "desc";
+  }>({
+    name: "",
+    surname: "",
+    sort_field: "name",
+    order_by: "asc",
   });
 
-  const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const [totalUsers, setTotalUsers] = useState<number>(0);
+  const [page, setPage] = useState(1);
 
-  const [viewUserId, setViewUserId] = useState<string | null>(null);
-  const [editUserId, setEditUserId] = useState<string | null>(null);
-
-  const fetchUsers = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response: GetUsersResponse = await getUsersList(
+  const {
+    data,
+    isLoading,
+    error,
+  } = useQuery<GetUsersResponse>({
+    queryKey: ["users", role, page, filter],
+    queryFn: () =>
+      getUsersList(
         {
           name: filter.name || undefined,
           surname: filter.surname || undefined,
           sort_field: filter.sort_field,
           order_by: filter.order_by,
         },
-        { page, size: 30 }
-      );
+        { page, size: 10 }
+      ),
+    placeholderData: (prev) => prev, // заменяет keepPreviousData
+  });
 
-      const block = response[role];
+  const block = data?.[role] ?? { users: [], total_pages: 1 };
+  const users: UserResponse[] = block.users;
+  const totalPages = block.total_pages;
 
-      if (block) {
-        setUsers(block.users || []);
-        setTotalPages(block.total_pages || 1);
-        setTotalUsers(block.total_users || 0);
-      } else {
-        setUsers([]);
-        setError('No permissions or data found.');
-      }
-    } catch (err) {
-      console.error('Error fetching users:', err);
-      setError('Failed to load users list.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, [page, filter.sort_field, filter.order_by]);
+  const [viewUserId, setViewUserId] = useState<string | null>(null);
+  const [editUserId, setEditUserId] = useState<string | null>(null);
 
   const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPage(1);
-    fetchUsers();
   };
 
   const handleResetFilters = () => {
     setFilter({
-      name: '',
-      surname: '',
-      sort_field: 'name',
-      order_by: 'asc',
+      name: "",
+      surname: "",
+      sort_field: "name",
+      order_by: "asc",
     });
     setPage(1);
-    fetchUsers();
   };
 
   return (
-    <UsersLayout title={title} activeTab={role === 'ADMIN' ? 'admin' : 'moderator'}>
+    <UsersLayout title={title} activeTab={role === "ADMIN" ? "admin" : "moderator"}>
       
-      {/* Фильтры */}
+      {/* Filters */}
       <form className="users-filters" onSubmit={handleSearchSubmit}>
         <input
           type="text"
@@ -111,7 +96,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
         <select
           value={filter.sort_field}
           onChange={(e) =>
-            setFilter({ ...filter, sort_field: e.target.value as 'name' | 'surname' })
+            setFilter({ ...filter, sort_field: e.target.value as "name" | "surname" })
           }
         >
           <option value="name">Sort by Name</option>
@@ -121,7 +106,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
         <select
           value={filter.order_by}
           onChange={(e) =>
-            setFilter({ ...filter, order_by: e.target.value as 'asc' | 'desc' })
+            setFilter({ ...filter, order_by: e.target.value as "asc" | "desc" })
           }
         >
           <option value="asc">Ascending (A-Z)</option>
@@ -135,11 +120,11 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
       </form>
 
       {/* Loading / Error */}
-      {loading && <div className="loading-state">Loading users list...</div>}
-      {error && <div className="error-state">{error}</div>}
+      {isLoading && <div className="loading-state">Loading users list...</div>}
+      {error && <div className="error-state">Failed to load users list.</div>}
 
       {/* Table */}
-      {!loading && !error && (
+      {!isLoading && !error && (
         <div className="table-wrapper">
           <table className="users-table">
             <thead>
@@ -156,21 +141,19 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
 
             <tbody>
               {users.length > 0 ? (
-                users.map((u) => (
+                users.map((u: UserResponse) => (
                   <tr key={u.id}>
                     <td>
                       <UserAvatar imagePath={u.image_s3_path} name={u.name} size={36} />
                     </td>
 
                     <td>{u.name}</td>
-
                     <td>{u.surname}</td>
-
                     <td>@{u.username}</td>
 
                     <td>
-                      <span className={`status-badge ${u.is_blocked ? 'blocked' : 'active'}`}>
-                        {u.is_blocked ? 'Blocked' : 'Active'}
+                      <span className={`status-badge ${u.is_blocked ? "blocked" : "active"}`}>
+                        {u.is_blocked ? "Blocked" : "Active"}
                       </span>
                     </td>
 
@@ -179,7 +162,9 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
                         className="btn-icon btn-view"
                         onClick={() => setViewUserId(u.id)}
                       >
-                         <span className="material-symbols-outlined" style={{ color: '#fff', fontSize: 24 }}>visibility</span>
+                        <span className="material-symbols-outlined" style={{ color: "#fff", fontSize: 24 }}>
+                          visibility
+                        </span>
                       </button>
                     </td>
 
@@ -189,7 +174,9 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
                           className="btn-icon btn-edit"
                           onClick={() => setEditUserId(u.id)}
                         >
-                          <span className="material-symbols-outlined" style={{ color: '#fff', fontSize: 24 }}>edit_document</span>
+                          <span className="material-symbols-outlined" style={{ color: "#fff", fontSize: 24 }}>
+                            edit_document
+                          </span>
                         </button>
                       </td>
                     )}
@@ -197,7 +184,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
                 ))
               ) : (
                 <tr>
-                  <td colSpan={showEdit ? 5 : 4} style={{ textAlign: 'center', padding: '20px' }}>
+                  <td colSpan={showEdit ? 7 : 6} style={{ textAlign: "center", padding: "20px" }}>
                     No users found.
                   </td>
                 </tr>
@@ -222,7 +209,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
         </div>
       )}
 
-      {/* Modal to view user data */}
+      {/* View Modal */}
       {viewUserId && (
         <UserInfoModal
           userId={viewUserId}
@@ -230,16 +217,14 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
         />
       )}
 
-      {/* Modal to edit user data */}
+      {/* Edit Modal */}
       {editUserId && showEdit && (
         <EditUserModal
           userId={editUserId}
           isOpen={true}
           onClose={() => setEditUserId(null)}
-          onSuccess={fetchUsers}
         />
       )}
-
     </UsersLayout>
   );
 };
