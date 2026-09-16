@@ -8,6 +8,7 @@ import { EditUserModal } from '../../components/user/EditUserModal';
 import { UserInfoModal } from '../../components/user/UserInfo'
 import '../../styles/user/UsersPage.scss';
 import '../../styles/user/UserInfoModal.scss';
+import '../../styles/user/EditUserModal.scss';
 
 interface UsersPageProps {
   role: 'ADMIN' | 'MODERATOR';
@@ -233,6 +234,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
       {editUserId && showEdit && (
         <EditUserModal
           userId={editUserId}
+          isOpen={true}
           onClose={() => setEditUserId(null)}
           onSuccess={fetchUsers}
         />
