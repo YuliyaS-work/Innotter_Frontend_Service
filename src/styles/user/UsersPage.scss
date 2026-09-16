@@ -1,0 +1,200 @@
+@use 'sass:color';
+
+.users-layout {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.users-content {
+  /* ------------------------------
+     HEADER
+  ------------------------------ */
+  .users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    .total-count {
+      color: #888;
+      font-size: 16px;
+    }
+  }
+
+  /* ------------------------------
+     FILTERS
+  ------------------------------ */
+  .users-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+
+    input,
+    select {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      outline: none;
+      font-size: 14px;
+      min-width: 180px;
+
+      &:focus {
+        border-color: #ff6b00;
+        box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.3);
+      }
+    }
+
+    .search-btn {
+      background: #ff6b00;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #e05f00;
+      }
+    }
+
+    .reset-btn {
+      background: #444;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #555;
+      }
+    }
+  }
+
+  /* ------------------------------
+     TABLE WRAPPER
+  ------------------------------ */
+  .table-wrapper {
+    background: #242424;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+
+  /* ------------------------------
+     TABLE
+  ------------------------------ */
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    th,
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #333;
+      font-size: 18px; /* ← размер данных в строках */
+    }
+
+    th {
+      background: #2d2d2d;
+      color: #aaa;
+      font-size: 20px;
+      text-transform: uppercase;
+    }
+
+    /* ------------------------------
+       USERNAME STYLE
+    ------------------------------ */
+    .username {
+      font-size: 18px; /* ← размер username */
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* ------------------------------
+       STATUS BADGE
+    ------------------------------ */
+    .status-badge {
+      font-size: 18px;
+      font-weight: bold;
+
+      &.active {
+        color: #5cb85c;
+      }
+
+      &.blocked {
+        color: #d9534f;
+      }
+    }
+
+    /* ------------------------------
+       ICON BUTTONS
+    ------------------------------ */
+    .btn-icon {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      color: #ff6b00;
+
+      &:hover {
+        color: color.adjust(#ff6b00, $lightness: -10%);
+      }
+    }
+
+    /* ------------------------------
+       AVATAR PLACEHOLDER
+    ------------------------------ */
+    .avatar-placeholder {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #ff6b00;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  /* ------------------------------
+     PAGINATION
+  ------------------------------ */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+
+    button {
+      background: #333;
+      color: #fff;
+      border: 1px solid #444;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

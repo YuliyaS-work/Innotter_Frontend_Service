@@ -1,0 +1,109 @@
+/* OVERLAY */
+.edit-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* MAIN MODAL */
+.edit-modal-vertical {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 650px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* TITLE */
+.edit-modal-title {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* ERROR */
+.edit-modal-error {
+  color: #EB5757;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* TWO-COLUMN FORM */
+.edit-modal-form-two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+  row-gap: 20px;
+}
+
+/* COLUMN */
+.edit-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* FIELD */
+.edit-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-field label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+.edit-field input,
+.edit-field select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* ROLES */
+.roles-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: #f7f7f7;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+/* ACTION BUTTONS (BOTTOM RIGHT) */
+.edit-modal-actions-bottom {
+  grid-column: 2 / 3; /* place under right column */
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit-btn-save {
+  padding: 10px 20px;
+  background-color: #ff6b00;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-btn-cancel {
+  padding: 10px 20px;
+  background-color: #f2f2f2;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}

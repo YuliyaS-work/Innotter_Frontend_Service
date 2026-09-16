@@ -15,6 +15,7 @@ export interface RoleResponse {
 }
 
 export interface UserResponse {
+  additional_info: import("react").JSX.Element;
   id: string;
   name: string;
   surname: string;
@@ -148,7 +149,7 @@ export const getUsersList = async (
     params: {
       ...filter,
       page: pagination?.page || 1,
-      size: pagination?.size || 30,
+      size: pagination?.size || 10,
     },
   });
   return response.data;

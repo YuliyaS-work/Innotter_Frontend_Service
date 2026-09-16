@@ -4,7 +4,7 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { ResetPasswordPage } from './pages/auth/ResetPasswordPage';
 import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
 import { ProfilePage } from './pages/user/ProfilePage';
-// import { AdminPage } from './pages/user/AdminPage';
+import { AdminPage } from './pages/user/AdminPage';
 import { ModeratorPage } from './pages/user/ModeratorPage';
 
 export const App = () => {
@@ -19,7 +19,7 @@ export const App = () => {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         
         <Route path="/me" element={<ProfilePage />} />
-        {/* <Route path="/admin" element={<AdminPage />} /> */}
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/moderator" element={<ModeratorPage />} />
 
         <Route path="*" element={<Navigate to="/login" replace />} />
