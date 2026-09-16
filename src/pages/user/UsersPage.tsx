@@ -47,7 +47,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
           sort_field: filter.sort_field,
           order_by: filter.order_by,
         },
-        { page, size: 30 }
+        { page, size: 10 }
       );
 
       const block = response[role];
