@@ -138,7 +138,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
       {loading && <div className="loading-state">Loading users list...</div>}
       {error && <div className="error-state">{error}</div>}
 
-      {/* Лёгкая таблица */}
+      {/* Table */}
       {!loading && !error && (
         <div className="table-wrapper">
           <table className="users-table">
@@ -207,7 +207,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
         </div>
       )}
 
-      {/* Пагинация */}
+      {/* Pagination */}
       {totalPages > 1 && (
         <div className="pagination">
           <button disabled={page <= 1} onClick={() => setPage(page - 1)}>
@@ -222,7 +222,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
         </div>
       )}
 
-      {/* Модалка просмотра */}
+      {/* Modal to view user data */}
       {viewUserId && (
         <UserInfoModal
           userId={viewUserId}
@@ -230,7 +230,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
         />
       )}
 
-      {/* Модалка редактирования */}
+      {/* Modal to edit user data */}
       {editUserId && showEdit && (
         <EditUserModal
           userId={editUserId}

@@ -6,9 +6,6 @@
 }
 
 .users-content {
-  /* ------------------------------
-     HEADER
-  ------------------------------ */
   .users-header {
     display: flex;
     justify-content: space-between;
@@ -21,9 +18,6 @@
     }
   }
 
-  /* ------------------------------
-     FILTERS
-  ------------------------------ */
   .users-filters {
     display: flex;
     gap: 12px;
@@ -77,18 +71,12 @@
     }
   }
 
-  /* ------------------------------
-     TABLE WRAPPER
-  ------------------------------ */
   .table-wrapper {
     background: #242424;
     border-radius: 8px;
     overflow-x: auto;
   }
 
-  /* ------------------------------
-     TABLE
-  ------------------------------ */
   .users-table {
     width: 100%;
     border-collapse: collapse;
@@ -98,7 +86,7 @@
     td {
       padding: 14px 16px;
       border-bottom: 1px solid #333;
-      font-size: 18px; /* ← размер данных в строках */
+      font-size: 18px;
     }
 
     th {
@@ -108,18 +96,13 @@
       text-transform: uppercase;
     }
 
-    /* ------------------------------
-       USERNAME STYLE
-    ------------------------------ */
+
     .username {
-      font-size: 18px; /* ← размер username */
+      font-size: 18px;
       font-weight: 600;
       color: #fff;
     }
 
-    /* ------------------------------
-       STATUS BADGE
-    ------------------------------ */
     .status-badge {
       font-size: 18px;
       font-weight: bold;
@@ -133,9 +116,6 @@
       }
     }
 
-    /* ------------------------------
-       ICON BUTTONS
-    ------------------------------ */
     .btn-icon {
       background: transparent;
       border: none;
@@ -148,9 +128,6 @@
       }
     }
 
-    /* ------------------------------
-       AVATAR PLACEHOLDER
-    ------------------------------ */
     .avatar-placeholder {
       width: 36px;
       height: 36px;
@@ -173,9 +150,6 @@
     }
   }
 
-  /* ------------------------------
-     PAGINATION
-  ------------------------------ */
   .pagination {
     display: flex;
     justify-content: center;
