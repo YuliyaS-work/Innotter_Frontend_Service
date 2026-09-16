@@ -1,6 +1,6 @@
 import React from "react";
 import { UserResponse } from "../../api/user";
-import "../../styles/user/UserInfoModal.scss";
+import "../../styles/users/UserInfoModal.scss";
 
 interface Props {
   user: UserResponse;

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import { Sidebar } from '../../components/common/Sidebar';
-import { RightPanel } from '../../components/common/RightPanel';
-import '../../styles/user/Profile.scss';
+import { Sidebar } from '../common/Sidebar';
+import { RightPanel } from '../common/RightPanel';
+import '../../styles/profile/Profile.scss';
 
 interface ProfileLayoutProps {
   children: ReactNode;

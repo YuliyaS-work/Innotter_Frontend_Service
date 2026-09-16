@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { getPresignedPostAvatar, confirmAvatar, deleteAvatar } from '../../api/user';
 
-import '../../styles/user/AvatarModal.scss';
+import '../../styles/profile/AvatarModal.scss';
 
 interface AvatarModalProps {
   isOpen: boolean;

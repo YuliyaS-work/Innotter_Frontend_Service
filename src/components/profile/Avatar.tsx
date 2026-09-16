@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import '../../styles/user/Avatar.scss';
+import '../../styles/profile/Avatar.scss';
 
 interface AvatarProps {
   avatarUrl: string | null;

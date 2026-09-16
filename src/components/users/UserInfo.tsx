@@ -3,7 +3,7 @@ import { getUserById, UserResponse } from "../../api/user";
 
 import { UserInfoFields } from "./UserInfoFields";
 
-import "../../styles/user/UserInfoModal.scss";
+import "../../styles/users/UserInfoModal.scss";
 
 interface Props {
   userId: string;
