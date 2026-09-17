@@ -49,7 +49,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ role, title, showEdit }) =
         },
         { page, size: 10 }
       ),
-    placeholderData: (prev) => prev, // заменяет keepPreviousData
+    placeholderData: (prev) => prev, 
   });
 
   const block = data?.[role] ?? { users: [], total_pages: 1 };
