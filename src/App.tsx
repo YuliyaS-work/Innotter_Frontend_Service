@@ -3,9 +3,9 @@ import { SignupPage } from './pages/auth/SignupPage';
 import { LoginPage } from './pages/auth/LoginPage';
 import { ResetPasswordPage } from './pages/auth/ResetPasswordPage';
 import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
-import { ProfilePage } from './pages/user/ProfilePage';
-import { AdminPage } from './pages/user/AdminPage';
-import { ModeratorPage } from './pages/user/ModeratorPage';
+import { ProfilePage } from './pages/profile/ProfilePage';
+import { AdminPage } from './pages/users/AdminPage';
+import { ModeratorPage } from './pages/users/ModeratorPage';
 
 export const App = () => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { EditUserForm } from "./EditUserForm";
+import { EditUserForm } from "../users/EditUserForm";
 import { useEditUserData } from "./useEditUserData";
 
 interface Props {

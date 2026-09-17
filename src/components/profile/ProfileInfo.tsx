@@ -4,7 +4,7 @@ import { UserResponse, getAvatarUrl } from '../../api/user';
 import { Avatar } from './Avatar';
 import { AvatarModal } from './AvatarProfileModal';
 
-import '../../styles/user/Profile.scss';
+import '../../styles/profile/Profile.scss';
 
 interface ProfileInfoProps {
   user: UserResponse;
