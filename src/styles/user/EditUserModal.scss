@@ -1,0 +1,111 @@
+.edit-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-modal-vertical {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 650px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.edit-modal-title {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+.edit-modal-error {
+  color: #EB5757;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.edit-modal-form-two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+  row-gap: 20px;
+  align-items: start; 
+}
+
+.edit-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.edit-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-field label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+.edit-field input,
+.edit-field select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.roles-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.role-item {
+  display: flex;
+  align-items: center; 
+  gap: 10px;
+}
+
+.role-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.edit-modal-actions-bottom {
+  grid-column: 1 / 3; 
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit-btn-save {
+  padding: 10px 20px;
+  background-color: #ff6b00;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-btn-cancel {
+  padding: 10px 20px;
+  background-color: #f2f2f2;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}

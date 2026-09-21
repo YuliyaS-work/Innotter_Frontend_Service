@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { UserResponse, getAvatarUrl } from '../../api/user';
 
 import { Avatar } from './Avatar';
-import { AvatarModal } from './AvatarModal';
+import { AvatarModal } from './AvatarProfileModal';
 
 import '../../styles/user/Profile.scss';
 
