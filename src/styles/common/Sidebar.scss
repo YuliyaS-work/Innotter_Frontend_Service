@@ -1,0 +1,36 @@
+.sidebar {
+  width: 20%;
+  padding: 40px 0 0 40px;
+  background-color: #333;
+  border-right: 1px solid #eee;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.sidebar-title {
+  color: #ff6b00;
+  margin-bottom: 30px;
+  margin-top: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  margin-bottom: 30px;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  padding-left: 20px;
+}
+
+.sidebar-link--active {
+  color: #ff6b00;
+  font-weight: bold;
+}

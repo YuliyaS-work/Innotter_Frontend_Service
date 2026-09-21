@@ -1,88 +1,99 @@
-// src/pages/ProfilePage.tsx
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getMe, UserResponse } from '../../api/user';
-import { logoutUser } from '../../api/auth';
+import { deleteMe, getMe, UserResponse } from '../../api/user';
+import { EditProfileModal } from '../../components/user/EditProfileModal';
+import { ProfileLayout } from '../../components/user/ProfileLayout';
+import { ProfileInfo } from '../../components/user/ProfileInfo';
+import { ProfileFields } from '../../components/user/ProfileFields';
+import { Button } from '../../components/common/Button_profile';
 
-export const ProfilePage = () => {
-  const navigate = useNavigate();
+
+export const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const data = await getMe();
-        setUser(data);
-      } catch (err: any) {
-        console.error('Failed to fetch user:', err);
-        setError('Unauthorized or session expired.');
-        // if a user is not authenticated
-        navigate('/login');
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchUserData();
+  }, []);
 
-    fetchUserProfile();
-  }, [navigate]);
-
-  const handleLogout = async () => {
+  const fetchUserData = async () => {
     try {
-      await logoutUser();
-      navigate('/login');
-    } catch (err) {
-      console.error('Logout failed:', err);
+      setLoading(true);
+      setError(null);
+      const data = await getMe();
+      setUser(data);
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        window.location.href = '/login';
+        return;
+      }
+      setError('Failed to load profile data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
+      try {
+        await deleteMe();
+        window.location.href = '/login';
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          window.location.href = '/login';
+          return;
+        }
+        setError('Failed to delete profile');
+      }
     }
   };
 
   if (loading) {
     return (
-      <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>
-        <h2>Loading profile...</h2>
-      </div>
+      <ProfileLayout>
+        <div style={{ padding: '20px' }}>Loading profile...</div>
+      </ProfileLayout>
     );
   }
 
-  if (error || !user) {
-    return null;
+  if (!user) {
+    return (
+      <ProfileLayout>
+        <div className="profile-error">Profile not found</div>
+      </ProfileLayout>
+    );
   }
 
   return (
-    <div style={{ padding: '40px', fontFamily: 'sans-serif', maxWidth: '600px' }}>
-      <h1>User Profile</h1>
-      
-      <div style={{ background: '#f5f5f5', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
-        <p><strong>ID:</strong> {user.id}</p>
-        <p><strong>Full Name:</strong> {user.name} {user.surname}</p>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Phone:</strong> {user.phone_number || 'N/A'}</p>
-        <p><strong>Status:</strong> {user.is_blocked ? 'Blocked' : 'Active'}</p>
-        
-        {user.roles && user.roles.length > 0 && (
-          <p>
-            <strong>Roles:</strong> {user.roles.map((role) => role.role_name).join(', ')}
-          </p>
-        )}
+    <ProfileLayout>
+      {error && <div className="profile-error">{error}</div>}
+
+      <div className="profile-content">
+        <ProfileInfo user={user} />
+
+        <div style={{ flex: 1 }}>
+          <ProfileFields user={user} />
+
+          <div className="profile-actions">
+            <Button onClick={() => setIsModalOpen(true)} bgColor="#ff6b00">
+              Edit Profile
+            </Button>
+            <Button onClick={handleDelete} bgColor="#a21313">
+              Delete Profile
+            </Button>
+          </div>
+        </div>
       </div>
 
-      <button
-        onClick={handleLogout}
-        style={{
-          backgroundColor: '#ff6b00',
-          color: 'white',
-          border: 'none',
-          padding: '12px 24px',
-          borderRadius: '4px',
-          fontSize: '1rem',
-          fontWeight: 'bold',
-          cursor: 'pointer',
-        }}
-      >
-        Log Out
-      </button>
-    </div>
+      {user && (
+        <EditProfileModal
+          user={user}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSuccess={(updatedUser) => setUser(updatedUser)}
+        />
+      )}
+    </ProfileLayout>
   );
 };
