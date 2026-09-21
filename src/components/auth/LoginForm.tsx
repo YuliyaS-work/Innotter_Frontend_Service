@@ -1,3 +1,4 @@
+import React from "react";
 import { FormField } from "../form/FormField";
 import { FormikProps } from "formik";
 
@@ -6,9 +7,11 @@ interface LoginFormProps {
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({ formik }) => (
-  <form onSubmit={formik.handleSubmit}>
-    <FormField label="Username/Email/Phone" name="login" formik={formik} />
-    <FormField label="Password" name="password" type="password" formik={formik} />
+  <div className="login-form-wrapper">
+    {formik.status && <div className="form-error-banner">{formik.status}</div>}
+
+    <FormField label="Username/Email/Phone" name="login" formik={formik} autoComplete="username" />
+    <FormField label="Password" name="password" type="password" formik={formik} autoComplete="current-password" />
 
     <label className="checkbox-group">
       <input
@@ -20,8 +23,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ formik }) => (
       Remember me
     </label>
 
-    <button type="submit" className="submit-btn" disabled={formik.isSubmitting}>
-      {formik.isSubmitting ? 'Logging in...' : 'Sign In'}
+    <button
+      type="button"
+      onClick={() => formik.handleSubmit()}
+      className="submit-btn"
+      disabled={formik.isSubmitting}
+    >
+      {formik.isSubmitting ? 'Logging in...' : 'Log In'}
     </button>
-  </form>
+  </div>
 );

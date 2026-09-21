@@ -12,19 +12,59 @@ export const LoginPage = () => {
   const formik = useFormik({
     initialValues: loginInitialValues,
     validationSchema: loginSchema,
-    onSubmit: async (values, { setSubmitting, setFieldError }) => {
+    validateOnChange: false,
+    validateOnBlur: false,
+
+    onSubmit: async (values, { setSubmitting, setFieldError, setStatus }) => {
+      setStatus(undefined);
+
       try {
+        await loginUser({ login: values.login, password: values.password });
+
         if (values.rememberMe) {
           localStorage.setItem('remembered_login', values.login);
         } else {
           localStorage.removeItem('remembered_login');
         }
 
-        await loginUser({ login: values.login, password: values.password });
         navigate('/me');
-
       } catch (error: any) {
-        setFieldError('password', 'Invalid login or password');
+        const detail = error.response?.data?.detail;
+
+        if (Array.isArray(detail)) {
+          detail.forEach((err: any) => {
+            const fieldName = err.loc ? err.loc[err.loc.length - 1] : '';
+
+            if (fieldName === 'password') {
+              if (err.type === 'string_too_short') {
+                setFieldError('password', 'Password must be at least 8 characters');
+              } else if (err.type === 'string_too_long') {
+                setFieldError('password', 'Password must be no more than 64 characters');
+              } else {
+                setFieldError('password', err.msg);
+              }
+            } else if (fieldName === 'login') {
+              setFieldError('login', err.msg);
+            }
+          });
+          return;
+        }
+
+        if (typeof detail === 'string') {
+          const normalized = detail.trim().toLowerCase();
+
+          if (normalized.startsWith("user's not found")) {
+            setFieldError('login', "We couldn't find an account with this login");
+            return;
+          }
+
+          if (normalized.startsWith("password's not correct")) {
+            setFieldError('password', 'Incorrect password');
+            return;
+          }
+        }
+
+        setStatus(typeof detail === 'string' ? detail : 'Something went wrong. Please try again.');
       } finally {
         setSubmitting(false);
       }

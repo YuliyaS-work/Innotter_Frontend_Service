@@ -13,6 +13,10 @@ export const SignupPage = () => {
   const formik = useFormik({
     initialValues: signupInitialValues,
     validationSchema: signupSchema,
+
+    validateOnChange: false,
+    validateOnBlur: false,
+
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
         const payload = {
@@ -21,7 +25,7 @@ export const SignupPage = () => {
         };
 
         await registerUser(payload);
-        navigate('/login');
+        navigate('/me');
 
       } catch (error: any) {
         setFieldError('email', 'Registration failed. User with this data might already exist.');

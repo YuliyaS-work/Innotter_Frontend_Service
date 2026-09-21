@@ -5,9 +5,18 @@ interface FormFieldProps {
   name: string;
   type?: string;
   formik: any;
+  autoComplete?: string;
 }
 
-export const FormField: React.FC<FormFieldProps> = ({ label, name, type = "text", formik }) => {
+export const FormField: React.FC<FormFieldProps> = ({
+  label,
+  name,
+  type = 'text',
+  formik,
+  autoComplete = 'off',
+}) => {
+  const errorMessage = formik.errors[name];
+
   return (
     <div className="form-group">
       <label>{label}</label>
@@ -15,14 +24,13 @@ export const FormField: React.FC<FormFieldProps> = ({ label, name, type = "text"
       <input
         name={name}
         type={type}
-        value={formik.values[name]}
+        autoComplete={autoComplete}
+        value={formik.values[name] || ''}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
       />
 
-      {formik.touched[name] && formik.errors[name] && (
-        <div className="error-text">{formik.errors[name]}</div>
-      )}
+      {errorMessage && <div className="error-text">{errorMessage}</div>}
     </div>
   );
 };

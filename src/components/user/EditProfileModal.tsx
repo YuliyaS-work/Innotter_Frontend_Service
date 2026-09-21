@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { patchMe } from '../../api/user';
 import { UserResponse, ProfileUserPatch } from '../../api/user';
 
+import '../../styles/user/EditProfileModal.scss';
+
 interface EditProfileModalProps {
   user: UserResponse;
   isOpen: boolean;
@@ -22,7 +24,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     email: user.email,
     phone_number: user.phone_number || '',
   });
-  const [saving, setSaving] = useState<boolean>(false);
+
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
@@ -36,8 +39,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     setSaving(true);
     setError(null);
 
-    // Collect only changed fields
     const changedFields: ProfileUserPatch = {};
+
     if (formData.name !== user.name) changedFields.name = formData.name;
     if (formData.surname !== user.surname) changedFields.surname = formData.surname;
     if (formData.username !== user.username) changedFields.username = formData.username;
@@ -66,117 +69,50 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.4)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        backgroundColor: '#fff',
-        padding: '30px',
-        borderRadius: '12px',
-        width: '100%',
-        maxWidth: '420px',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)'
-      }}>
-        <h3 style={{ marginTop: 0, marginBottom: '20px', color: '#333' }}>Edit Profile</h3>
+    <div className="edit-modal-overlay">
+      <div className="edit-modal">
+        <h3 className="edit-modal-title">Edit Profile</h3>
 
-        {error && <div style={{ color: '#EB5757', marginBottom: '15px', fontSize: '14px' }}>{error}</div>}
+        {error && <div className="edit-modal-error">{error}</div>}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <div>
-            <label style={{ display: 'block', color: '#555', marginBottom: '5px', fontSize: '14px' }}>Name</label>
-            <input 
-              type="text" 
-              name="name" 
-              value={formData.name || ''} 
-              onChange={handleChange} 
-              style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ccc', boxSizing: 'border-box' }} 
-            />
+        <form onSubmit={handleSubmit} className="edit-modal-form">
+          <div className="edit-field">
+            <label>Name</label>
+            <input type="text" name="name" value={formData.name} onChange={handleChange} />
           </div>
 
-          <div>
-            <label style={{ display: 'block', color: '#555', marginBottom: '5px', fontSize: '14px' }}>Surname</label>
-            <input 
-              type="text" 
-              name="surname" 
-              value={formData.surname || ''} 
-              onChange={handleChange} 
-              style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ccc', boxSizing: 'border-box' }} 
-            />
+          <div className="edit-field">
+            <label>Surname</label>
+            <input type="text" name="surname" value={formData.surname} onChange={handleChange} />
           </div>
 
-          <div>
-            <label style={{ display: 'block', color: '#555', marginBottom: '5px', fontSize: '14px' }}>Email account</label>
-            <input 
-              type="email" 
-              name="email" 
-              value={formData.email || ''} 
-              onChange={handleChange} 
-              style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ccc', boxSizing: 'border-box' }} 
-            />
+          <div className="edit-field">
+            <label>Email account</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} />
           </div>
 
-          <div>
-            <label style={{ display: 'block', color: '#555', marginBottom: '5px', fontSize: '14px' }}>Mobile number</label>
-            <input 
-              type="text" 
-              name="phone_number" 
-              value={formData.phone_number || ''} 
-              onChange={handleChange} 
+          <div className="edit-field">
+            <label>Mobile number</label>
+            <input
+              type="text"
+              name="phone_number"
+              value={formData.phone_number}
+              onChange={handleChange}
               placeholder="Add number"
-              style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ccc', boxSizing: 'border-box' }} 
             />
           </div>
 
-          <div>
-            <label style={{ display: 'block', color: '#555', marginBottom: '5px', fontSize: '14px' }}>Username</label>
-            <input 
-              type="text" 
-              name="username" 
-              value={formData.username || ''} 
-              onChange={handleChange} 
-              style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ccc', boxSizing: 'border-box' }} 
-            />
+          <div className="edit-field">
+            <label>Username</label>
+            <input type="text" name="username" value={formData.username} onChange={handleChange} />
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-            <button 
-              type="submit" 
-              disabled={saving}
-              style={{ 
-                flex: 1, 
-                padding: '10px', 
-                backgroundColor: '#ff6b00', 
-                color: '#fff', 
-                border: 'none', 
-                borderRadius: '6px', 
-                cursor: saving ? 'not-allowed' : 'pointer',
-                fontWeight: 'bold'
-              }}
-            >
+          <div className="edit-modal-actions">
+            <button type="submit" disabled={saving} className="edit-btn-save">
               {saving ? 'Saving...' : 'Submit'}
             </button>
-            <button 
-              type="button" 
-              onClick={onClose}
-              style={{ 
-                padding: '10px 15px', 
-                backgroundColor: '#f2f2f2', 
-                color: '#333', 
-                border: 'none', 
-                borderRadius: '6px', 
-                cursor: 'pointer',
-                fontWeight: 'bold'
-              }}
-            >
+
+            <button type="button" onClick={onClose} className="edit-btn-cancel">
               Cancel
             </button>
           </div>
