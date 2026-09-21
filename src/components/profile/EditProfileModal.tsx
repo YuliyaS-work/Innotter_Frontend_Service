@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { patchMe } from '../../api/user';
 import { UserResponse, ProfileUserPatch } from '../../api/user';
 
-import '../../styles/user/EditProfileModal.scss';
+import '../../styles/profile/EditProfileModal.scss';
 
 interface EditProfileModalProps {
   user: UserResponse;

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { deleteMe, getMe, UserResponse } from '../../api/user';
-import { EditProfileModal } from '../../components/user/EditProfileModal';
-import { ProfileLayout } from '../../components/user/ProfileLayout';
-import { ProfileInfo } from '../../components/user/ProfileInfo';
-import { ProfileFields } from '../../components/user/ProfileFields';
+import { EditProfileModal } from '../../components/profile/EditProfileModal';
+import { ProfileLayout } from '../../components/profile/ProfileLayout';
+import { ProfileInfo } from '../../components/profile/ProfileInfo';
+import { ProfileFields } from '../../components/profile/ProfileFields';
 import { Button } from '../../components/common/Button_profile';
 
 

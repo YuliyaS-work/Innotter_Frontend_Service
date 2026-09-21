@@ -1,16 +1,16 @@
 import React, { useState, FormEvent } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { UsersLayout } from "../../components/user/UsersLayout";
+import { UsersLayout } from "../../components/users/UsersLayout";
 import { getUsersList, GetUsersResponse, UserResponse } from "../../api/user";
 import { UserAvatar } from "../../components/common/UserInfoAvatar";
 
-import { EditUserModal } from "../../components/user/EditUserModal";
-import { UserInfoModal } from "../../components/user/UserInfo";
+import { EditUserModal } from "../../components/users/EditUserModal";
+import { UserInfoModal } from "../../components/users/UserInfo";
 
-import "../../styles/user/UsersPage.scss";
-import "../../styles/user/UserInfoModal.scss";
-import "../../styles/user/EditUserModal.scss";
+import "../../styles/users/UsersPage.scss";
+import "../../styles/users/UserInfoModal.scss";
+import "../../styles/users/EditUserModal.scss";
 
 interface UsersPageProps {
   role: "ADMIN" | "MODERATOR";

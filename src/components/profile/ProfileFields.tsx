@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserResponse } from '../../api/user';
-import '../../styles/user/Profile.scss';
+import '../../styles/profile/Profile.scss';
 
 interface ProfileFieldsProps {
   user: UserResponse;
