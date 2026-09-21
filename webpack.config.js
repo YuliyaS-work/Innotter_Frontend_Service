@@ -17,6 +17,18 @@ module.exports = {
         use: 'ts-loader', 
         exclude: /node_modules/,
       },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          "style-loader", 
+          "css-loader",   
+          "sass-loader",  
+        ],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      }
     ],
   },
   plugins: [
@@ -27,6 +39,6 @@ module.exports = {
   devServer: {
     port: 3000,
     host: '0.0.0.0',
-    historyApiFallback: true, 
+    historyApiFallback: true,
   },
 };
