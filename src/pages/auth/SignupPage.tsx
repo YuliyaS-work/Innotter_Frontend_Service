@@ -5,10 +5,14 @@ import { registerUser } from '../../api/auth';
 import { signupInitialValues } from '../../validation/auth/signupInitialValues';
 import { signupSchema } from '../../validation/auth/signupSchema';
 import { SignupForm } from '../../components/auth/SignupForm';
+import { useAppDispatch } from '../../store/store';
+import { getMe } from '../../api/user';
+import { setCredentials } from '../../store/authSlice';
 
 
 export const SignupPage = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: signupInitialValues,
@@ -24,10 +28,38 @@ export const SignupPage = () => {
           phone_number: values.phone_number.trim() === '' ? null : values.phone_number,
         };
 
+        // 1. sign up
         await registerUser(payload);
+
+        // 2.get user data
+        const userData = await getMe();
+        const userId = String(userData.id);
+
+        // all the roles to a massive
+        const userRoles: string[] = Array.isArray(userData.roles)
+          ? userData.roles.map((r: any) => (typeof r === 'object' ? r.role_name || r.name : String(r)))
+          : [];
+
+        // 3. saving user data in the  localStorage
+        localStorage.setItem('user_id', userId);
+        localStorage.setItem('user_roles', JSON.stringify(userRoles));
+
+        // 4. get user data to Redux
+        dispatch(
+          setCredentials({
+            user: {
+              id: userId,
+              roles: userRoles,
+              email: userData.email,
+            },
+          })
+        );
+
+        // 5. move to the profile
         navigate('/me');
 
       } catch (error: any) {
+        console.error('Signup error:', error);
         setFieldError('email', 'Registration failed. User with this data might already exist.');
       } finally {
         setSubmitting(false);
