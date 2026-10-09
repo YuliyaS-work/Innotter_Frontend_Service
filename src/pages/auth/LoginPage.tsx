@@ -2,12 +2,16 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthLayout } from '../../components/auth/AuthLayout';
 import { loginUser } from '../../api/auth';
+import { getMe } from '../../api/user';
 import { LoginForm } from '../../components/auth/LoginForm';
 import { loginInitialValues } from '../../validation/auth/loginInitialValues';
 import { loginSchema } from '../../validation/auth/loginSchema';
+import { useAppDispatch } from '../../store/store';
+import { setCredentials } from '../../store/authSlice';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: loginInitialValues,
@@ -19,7 +23,32 @@ export const LoginPage = () => {
       setStatus(undefined);
 
       try {
+        // 1. login
         await loginUser({ login: values.login, password: values.password });
+
+        // 2. get user data
+        const userData = await getMe();
+        const userId = String(userData.id);
+
+        // all the roles to a massive
+        const userRoles: string[] = Array.isArray(userData.roles)
+          ? userData.roles.map((r: any) => (typeof r === 'object' ? r.role_name || r.name : String(r)))
+          : [];
+
+        // 3. saving user data in the  localStorage
+        localStorage.setItem('user_id', userId);
+        localStorage.setItem('user_roles', JSON.stringify(userRoles));
+
+        // 4. get user data to Redux
+        dispatch(
+          setCredentials({
+            user: {
+              id: userId,
+              roles: userRoles,
+              email: userData.email,
+            },
+          })
+        );
 
         if (values.rememberMe) {
           localStorage.setItem('remembered_login', values.login);
@@ -27,8 +56,10 @@ export const LoginPage = () => {
           localStorage.removeItem('remembered_login');
         }
 
+        // 5. move to the profile
         navigate('/me');
       } catch (error: any) {
+        console.error('Login error:', error);
         const detail = error.response?.data?.detail;
 
         if (Array.isArray(detail)) {

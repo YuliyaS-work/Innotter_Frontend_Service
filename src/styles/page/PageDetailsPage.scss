@@ -1,0 +1,90 @@
+.page-details-layout {
+  display: flex;
+  min-height: 100vh;
+
+  .page-details-main {
+    flex: 1;
+    padding: 24px;
+
+    .page-header-card {
+      .page-header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .follow-btn-wrapper {
+          width: 140px;
+        }
+      }
+
+      .page-description {
+        margin-top: 8px;
+        color: #666;
+      }
+
+      .page-tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+
+        .tag-badge {
+          background-color: #f0f0f0;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          color: #333;
+        }
+      }
+    }
+
+    .posts-section {
+      margin-top: 30px;
+
+      .no-posts {
+        color: #888;
+        font-style: italic;
+        margin-top: 12px;
+      }
+
+      .post-card {
+        margin-bottom: 16px;
+        padding: 16px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        background-color: #fff;
+
+        .post-content {
+          font-size: 14px;
+          line-height: 1.5;
+        }
+
+        .post-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 12px;
+
+          .like-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            padding: 0;
+
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+
+          small {
+            color: #888;
+          }
+        }
+      }
+    }
+  }
+}

@@ -6,8 +6,9 @@ export const apiUMS = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+
 export const apiInnotter = axios.create({
-  baseURL: 'http://localhost:8002',
+  baseURL: 'http://localhost:8002/innotter/api',
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 });
@@ -55,7 +56,7 @@ const attachRefreshInterceptor = (instance: AxiosInstance) => {
         isRefreshing = true;
 
         try {
-          // ИСПРАВЛЕНИЕ: Ждем завершения запроса рефреша перед тем, как отпускать очередь
+          // waiting the end of the request
           await apiUMS.post('/auth/refresh-token');
           processQueue(null);
           return instance(originalRequest);

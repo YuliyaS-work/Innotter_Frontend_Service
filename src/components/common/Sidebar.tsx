@@ -1,30 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../api/auth';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { logout } from '../../store/authSlice';
 import '../../styles/common/Sidebar.scss';
 import '../../styles/common/Common.scss';
-import { getMe } from '../../api/user';
 
 interface SidebarProps {
   activeTab?: 'home' | 'explore' | 'profile' | 'admin' | 'moderator';
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'profile' }) => {
-  const [userRoles, setUserRoles] = useState<any[]>([]);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const fetchUserRoles = async () => {
-      try {
-        const userData = await getMe();
-        setUserRoles(userData.roles || []);
-      } catch (error) {
-        setUserRoles([]);
-      }
-    };
+  // take roles from redux or localstorage
+  const authUser = useAppSelector((state) => state.auth.user);
+  
+  const savedRoles = localStorage.getItem('user_roles');
+  const userRoles: string[] = authUser?.roles || (savedRoles ? JSON.parse(savedRoles) : []);
 
-    fetchUserRoles();
-  }, []);
-
-  // Safe type-agnostic role check (handles string or object with name/title)
+  // checking roles
   const hasRole = (roleName: string) => {
     return userRoles.some((role: any) => {
       if (typeof role === 'string') return role === roleName;
@@ -38,46 +34,51 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'profile' }) => {
   const getClassName = (tab: string) =>
     `sidebar-link ${activeTab === tab ? 'sidebar-link--active' : ''}`;
 
+  const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      // 1. request to backend for deleting of HttpOnly cookies
+      await logoutUser();
+    } catch (error) {
+      console.error('Logout failed on server:', error);
+    } finally {
+      // 2. Clean Redux-state and localstorage
+      dispatch(logout()); 
+      localStorage.clear(); 
+
+      // 3. Redirect to login
+      navigate('/login');
+    }
+  };
+
   return (
     <aside className="sidebar">
       <h1 className="sidebar-title">💬 Innotter</h1>
 
       <nav className="sidebar-nav">
-        <a href="/home" className={getClassName('home')}>
+        <Link to="/home" className={getClassName('home')}>
           <span className="material-symbols-outlined" style={{ color: '#fff', fontSize: 24 }}>home</span> Home
-        </a>
-        <a href="/explore" className={getClassName('explore')}>
+        </Link>
+        <Link to="/explore" className={getClassName('explore')}>
           <span className="material-symbols-outlined" style={{ color: '#fff', fontSize: 24 }}>search</span> Explore
-        </a>
-        <a href="/me" className={getClassName('profile')}>
+        </Link>
+        <Link to="/me" className={getClassName('profile')}>
           <span className="material-symbols-outlined" style={{ color: '#fff', fontSize: 24 }}>person</span> Profile
-        </a>
+        </Link>
 
         {isAdmin && (
-          <a href="/admin" className={getClassName('admin')}>
+          <Link to="/admin" className={getClassName('admin')}>
             <span className="material-symbols-outlined" style={{ color: '#fff', fontSize: 24 }}>admin_panel_settings</span> Admin Panel
-          </a>
+          </Link>
         )}
 
         {isModerator && (
-          <a href="/moderator" className={getClassName('moderator')}>
+          <Link to="/moderator" className={getClassName('moderator')}>
             <span className="material-symbols-outlined" style={{ color: '#fff', fontSize: 24 }}>shield</span> Group Users
-          </a>
+          </Link>
         )}
 
-        <a
-          href="/login"
-          className={getClassName('login')}
-          onClick={async (e) => {
-            e.preventDefault();
-            try {
-              await logoutUser();
-              window.location.href = '/login';
-            } catch (error) {
-              console.error('Logout failed:', error);
-            }
-          }}
-        >
+        <a href="/login" className={getClassName('login')} onClick={handleLogout}>
           <span className="material-symbols-outlined" style={{ color: '#fff', fontSize: 24 }}>logout</span> Log Out
         </a>
       </nav>
